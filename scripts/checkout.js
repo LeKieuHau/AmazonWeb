@@ -160,4 +160,4 @@ document.querySelectorAll('.quantity-input').forEach((inputQuantity) => {
 })
 
 console.log(123);
-
+console.log(123456);
