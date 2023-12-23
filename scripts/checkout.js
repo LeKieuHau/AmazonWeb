@@ -158,3 +158,6 @@ document.querySelectorAll('.quantity-input').forEach((inputQuantity) => {
     }
   })
 })
+
+console.log(123);
+
