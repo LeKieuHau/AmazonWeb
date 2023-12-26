@@ -82,9 +82,9 @@ document.querySelectorAll('.js-add-to-cart')
       idSetTimeout = setTimeout(() => {
         addToCart(productId);
         updateQuantityCart();
-        document.querySelector(`.js-added-to-cart-${productId}`).classList.remove('added-to-cart-after-click');
+        ssList.remove('added-to-cart-after-click');
       }, 2000);
-
+      
     });
   });
 
