@@ -77,21 +77,6 @@ export function updateQuantityCart() {
   }
 }
 
-
-//delete cart
-export function removeFromCart(productId) {
-  let newCart = [];
-  cart.forEach((cartItem) => {
-    if (cartItem.productId !== productId) {
-      newCart.push(cartItem);
-    }
-  })
-  cart = newCart;
-
-  //every update times, we will save cart in localStorage
-  saveCartInLocalStorage();
-}
-
 // checkOut item
 export function updateCartQuantityCheckout() {
   let cartQuantity = 0;
@@ -108,6 +93,22 @@ export function updateCartQuantityCheckout() {
       .innerHTML = `${cartQuantity} items`;
   }
 }
+
+//delete cart
+export function removeFromCart(productId) {
+  let newCart = [];
+  cart.forEach((cartItem) => {
+    if (cartItem.productId !== productId) {
+      newCart.push(cartItem);
+    }
+  })
+  cart = newCart;
+  updateCartQuantityCheckout()
+  //every update times, we will save cart in localStorage
+  saveCartInLocalStorage();
+}
+
+
 
 //show at icon bike
 export function quantityEveryCart() {

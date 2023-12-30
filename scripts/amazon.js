@@ -74,15 +74,16 @@ document.querySelectorAll('.js-add-to-cart')
   .forEach((button) => {
     button.addEventListener('click', () => {
       const {productId} = button.dataset;
+      const elementBoxAdd = document.querySelector(`.js-added-to-cart-${productId}`);
 
-      document.querySelector(`.js-added-to-cart-${productId}`).classList.add('added-to-cart-after-click');
+      elementBoxAdd.classList.add('added-to-cart-after-click');
       let idSetTimeout;
       clearTimeout(idSetTimeout);
 
       idSetTimeout = setTimeout(() => {
         addToCart(productId);
         updateQuantityCart();
-        ssList.remove('added-to-cart-after-click');
+        elementBoxAdd.classList.remove('added-to-cart-after-click');
       }, 2000);
       
     });

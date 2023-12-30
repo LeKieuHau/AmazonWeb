@@ -6,42 +6,35 @@ import {
   updateDeliveryOption
 } from '../../data/cart.js';
 import {
-  products
+  getProduct
 } from '../../data/products.js';
 import {
-  deliveryOptions
+  deliveryOptions, getDeliveryOption
 } from '../../data/deliveryOption.js';
 import {
   handlePrice
 } from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+import { renderPaymentSummary } from "./paymentSummary.js";
 
 
 //render code cart
 export function renderOrderSummary() {
 
-  let html = '';
+  let htmlOrderSummary = '';
   cart.forEach((cartItem) => {
+    
     const productId = cartItem.productId;
-
-    let matchingProduct;
-    products.forEach((product) => {
-      if (product.id === productId) {
-        matchingProduct = product;
-      }
-    })
+    const matchingProduct = getProduct(productId);
 
     const deliveryOptionIdCart = cartItem.deliveryOptionId;
-    let matchingDeliveryOption;
-    deliveryOptions.forEach((deliveryOption) => {
-      if(deliveryOption.id === deliveryOptionIdCart)
-        matchingDeliveryOption=deliveryOption;
-    })
+    const matchingDeliveryOption = getDeliveryOption(deliveryOptionIdCart)
+
     let today = dayjs();
     let deliveryDay = today.add(matchingDeliveryOption.deliveryTime, 'days');
     let deliveryFormat = deliveryDay.format('dddd, MMMM D');
 
-    html += `
+    htmlOrderSummary += `
   <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
     <div class="delivery-date">
       Delivery date: ${deliveryFormat}
@@ -89,7 +82,7 @@ export function renderOrderSummary() {
   </div>
   `
   })
-  document.querySelector('.js-order-summary').innerHTML = html;
+  document.querySelector('.js-order-summary').innerHTML = htmlOrderSummary;
 
   //checkout Items
   updateCartQuantityCheckout();
@@ -101,10 +94,10 @@ export function renderOrderSummary() {
       removeFromCart(productId);
 
       const containCart = document.querySelector(`.js-cart-item-container-${productId}`);
-
       containCart.remove();
-
-      updateCartQuantityCheckout();
+      
+      //after remove cartItem => update againt payment
+      renderPaymentSummary();
     })
   })
 
@@ -129,6 +122,9 @@ export function renderOrderSummary() {
       let inputUpdate = document.querySelector(`.js-cart-item-container-${productId} .quantity-input`);
 
       updateQuantityItem(productId, inputUpdate);
+
+      //after save quantity cartItem => update againt payment
+      renderPaymentSummary();
     })
   })
 
@@ -141,6 +137,9 @@ export function renderOrderSummary() {
       let inputUpdate = document.querySelector(`.js-cart-item-container-${productId} .quantity-input`);
       if (e.key === 'Enter') {
         updateQuantityItem(productId, inputUpdate);
+
+        //after save quantity cartItem => update againt payment
+        renderPaymentSummary();
       }
     })
   })
@@ -154,7 +153,12 @@ export function renderOrderSummary() {
         deliveryOptionId
       } = rdDeliveryOption.dataset;
       updateDeliveryOption(productId, deliveryOptionId);
+
+      //after choice delivery option => update again code
       renderOrderSummary();
+
+      //after choice delivery option cartItem => update againt payment
+      renderPaymentSummary();
     })
   })
 }
