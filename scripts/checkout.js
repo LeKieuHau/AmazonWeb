@@ -33,10 +33,20 @@ function renderCartHTML() {
       }
     })
 
+    const deliveryOptionIdCart = cartItem.deliveryOptionId;
+    let matchingDeliveryOption;
+    deliveryOptions.forEach((deliveryOption) => {
+      if(deliveryOption.id === deliveryOptionIdCart)
+        matchingDeliveryOption=deliveryOption;
+    })
+    let today = dayjs();
+    let deliveryDay = today.add(matchingDeliveryOption.deliveryTime, 'days');
+    let deliveryFormat = deliveryDay.format('dddd, MMMM D');
+
     html += `
   <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
     <div class="delivery-date">
-      Delivery date: Tuesday, June 21
+      Delivery date: ${deliveryFormat}
     </div>
 
     <div class="cart-item-details-grid">
