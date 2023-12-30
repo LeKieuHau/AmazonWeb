@@ -26,7 +26,7 @@ export function renderPaymentSummary() {
     </div>
 
     <div class="payment-summary-row">
-      <div>Items (3):</div>
+      <div>Items (${cart.length}):</div>
       <div class="payment-summary-money">$${handlePrice(sumPriceCentCart)}</div>
     </div>
 
@@ -49,7 +49,7 @@ export function renderPaymentSummary() {
       <div>Order total:</div>
       <div class="payment-summary-money">$${handlePrice(total)}</div>
     </div>
-
+ 
     <a href="orders.html">
       <button class="place-order-button button-primary">
         Place your order

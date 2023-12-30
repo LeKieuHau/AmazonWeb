@@ -85,7 +85,7 @@ export function renderOrderSummary() {
   document.querySelector('.js-order-summary').innerHTML = htmlOrderSummary;
 
   //checkout Items
-  updateCartQuantityCheckout();
+  //updateCartQuantityCheckout();
 
   //remove cart when i click delete
   document.querySelectorAll('.delete-quantity-link').forEach((link) => {
